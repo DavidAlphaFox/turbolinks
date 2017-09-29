@@ -20,6 +20,7 @@ class Turbolinks.ScrollManager
     window.scrollTo(x, y)
 
   onScroll: (event) =>
+    ## when scroll the page, we will scroll the page auto
     @updatePosition(x: window.pageXOffset, y: window.pageYOffset)
 
   # Private

@@ -15,7 +15,9 @@ class Turbolinks.Controller
     @clearCache()
 
   start: ->
+    # ensure pushState is supported and we not started
     if Turbolinks.supported and not @started
+      # add a global event listener on click and DOMContentLoaded
       addEventListener("click", @clickCaptured, true)
       addEventListener("DOMContentLoaded", @pageLoaded, false)
       @scrollManager.start()

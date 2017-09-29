@@ -7,6 +7,7 @@
 
 @Turbolinks =
   supported: do ->
+    # if we support pushState
     window.history.pushState? and
       window.requestAnimationFrame? and
       window.addEventListener?
