@@ -28,9 +28,13 @@ Turbolinks.throttle = (fn) ->
       fn.apply(this, args)
 
 Turbolinks.dispatch = (eventName, {target, cancelable, data} = {}) ->
+  ## 创建事件对象
   event = document.createEvent("Events")
+  ## 初始化事件名称，可冒泡的，并且根据cancelable来决定是否可以取消
   event.initEvent(eventName, true, cancelable is true)
   event.data = data ? {}
+  ## 如果有设定对象直接使用对象进行派发事件
+  ## 否则使用document来派发事件
   (target ? document).dispatchEvent(event)
   event
 

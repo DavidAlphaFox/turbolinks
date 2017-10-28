@@ -8,6 +8,7 @@
 
 class Turbolinks.Controller
   constructor: ->
+    ## History管理器，依赖popstate和load事件
     @history = new Turbolinks.History this
     @view = new Turbolinks.View this
     @scrollManager = new Turbolinks.ScrollManager this
@@ -18,7 +19,14 @@ class Turbolinks.Controller
     # ensure pushState is supported and we not started
     if Turbolinks.supported and not @started
       # add a global event listener on click and DOMContentLoaded
+      ## 监听点击事件
       addEventListener("click", @clickCaptured, true)
+      ## 整个页面被重新加载的时候才会产生DOMContentLoaded事件
+      ## The DOMContentLoaded event is fired when the initial HTML document has been completely
+      ## loaded and parsed, without waiting for stylesheets, images, and subframes to finish
+      ## loading. A very different event load should be used only to detect a fully-loaded page.
+      ## It is an incredibly popular mistake to use load
+      ## where DOMContentLoaded would be much more appropriate, so be cautious.
       addEventListener("DOMContentLoaded", @pageLoaded, false)
       @scrollManager.start()
       @startHistory()
@@ -135,12 +143,15 @@ class Turbolinks.Controller
     @notifyApplicationAfterRender()
 
   # Event handlers
-
+  ## 绑定到window对象上
   pageLoaded: =>
+    ## 得到当前所在的url路径
     @lastRenderedLocation = @location
     @notifyApplicationAfterPageLoad()
 
+  ## 绑定到window对象上
   clickCaptured: =>
+    ## 先移除clickBubbled，再添加clickBubbled到click事件上
     removeEventListener("click", @clickBubbled, false)
     addEventListener("click", @clickBubbled, false)
 
@@ -182,6 +193,7 @@ class Turbolinks.Controller
     Turbolinks.dispatch("turbolinks:render")
 
   notifyApplicationAfterPageLoad: (timing = {}) ->
+    ## 让Turbolinks 分发turbolinks:load事件
     Turbolinks.dispatch("turbolinks:load", data: { url: @location.absoluteURL, timing })
 
   # Private

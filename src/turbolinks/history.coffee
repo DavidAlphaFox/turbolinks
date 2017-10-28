@@ -2,8 +2,17 @@ class Turbolinks.History
   constructor: (@delegate) ->
 
   start: ->
+    # 确保我们没有被二次启动
     unless @started
+      # calling history.pushState() or history.replaceState() won't trigger a popstate event.
+      # The popstate event is only triggered by performing a browser action,
+      # such as clicking on the back button (or calling history.back() in JavaScript),
+      # when navigating between two history entries for the same document.
+      # Browsers tend to handle the popstate event differently on page load.
+      # Chrome (prior to v34) and Safari (prior to 10.0) always emit
+      # a popstate event on page load, but Firefox doesn't.
       addEventListener("popstate", @onPopState, false)
+      # The load event is fired when a resource and its dependent resources have finished loading.
       addEventListener("load", @onPageLoad, false)
       @started = true
 

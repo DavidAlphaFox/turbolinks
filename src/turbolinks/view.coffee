@@ -4,12 +4,14 @@
 
 class Turbolinks.View
   constructor: (@delegate) ->
+    ## 得到页面的根元素
     @element = document.documentElement
 
   getRootLocation: ->
     @getSnapshot().getRootLocation()
-    
+
   getSnapshot: ->
+    ## 生成快照
     Turbolinks.Snapshot.fromElement(@element)
 
   render: ({snapshot, error, isPreview}, callback) ->

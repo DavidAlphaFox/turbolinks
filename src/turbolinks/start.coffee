@@ -1,9 +1,11 @@
 Turbolinks.start = ->
   if installTurbolinks()
+    ## 创建
     Turbolinks.controller ?= createController()
     Turbolinks.controller.start()
 
 installTurbolinks = ->
+  # 设置turbolinks
   window.Turbolinks ?= Turbolinks
   moduleIsInstalled()
 

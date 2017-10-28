@@ -11,6 +11,8 @@ class Turbolinks.Snapshot
     @fromElement(element)
 
   @fromElement: (element) ->
+    ## 直接用JS的querySelector来得到页面的head和body
+    ## 并生成Snapshot 对象
     new this
       head: element.querySelector("head")
       body: element.querySelector("body")
